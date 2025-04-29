@@ -116,7 +116,7 @@ export default function Inventory() {
           <h1 className="text-2xl font-bold flex items-center">
             <Package className="mr-2 h-6 w-6" /> Inventory Management
           </h1>
-          <p className="text-gray-500">Manage your products and stock levels</p>
+          <p className="text-muted-foreground">Manage your products and stock levels</p>
         </div>
         
         <div>
@@ -126,15 +126,15 @@ export default function Inventory() {
         </div>
       </div>
       
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-4 border-b border-gray-100">
+      <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
+        <div className="p-4 border-b border-border">
           <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
             <div className="relative w-full md:w-96">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder="Search products..."
-                className="w-full pl-9 bg-gray-50 border-gray-200"
+                className="w-full pl-9 bg-muted/40 border-input"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -167,7 +167,7 @@ export default function Inventory() {
             </TableHeader>
             <TableBody>
               {filteredItems.map((item) => (
-                <TableRow key={item.id} className="cursor-pointer hover:bg-gray-50">
+                <TableRow key={item.id} className="cursor-pointer hover:bg-muted/50">
                   <TableCell className="font-medium">{item.id}</TableCell>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.sku}</TableCell>
@@ -179,10 +179,10 @@ export default function Inventory() {
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         item.inStock <= item.minStock * 0.5
-                          ? "bg-red-100 text-red-800"
+                          ? "bg-destructive/10 text-destructive dark:bg-destructive/20"
                           : item.inStock <= item.minStock
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-green-100 text-green-800"
+                          ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                          : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
                       }`}
                     >
                       {item.inStock <= item.minStock * 0.5

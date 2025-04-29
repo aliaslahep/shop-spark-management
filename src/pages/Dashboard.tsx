@@ -1,15 +1,32 @@
 
-import { ShoppingCart, Package, Users, TrendingUp } from "lucide-react";
+import * as React from "react";
+import { ShoppingCart, Package, Users, TrendingUp, Plus, UserPlus } from "lucide-react";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { RecentSales } from "@/components/dashboard/RecentSales";
 import { LowStockItems } from "@/components/dashboard/LowStockItems";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-gray-500">Welcome back to ShopSpark Management</p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <p className="text-muted-foreground">Welcome back to ShopSpark Management</p>
+        </div>
+        <div className="flex gap-3">
+          <Button onClick={() => navigate('/inventory/add')} className="gap-2">
+            <Plus className="h-4 w-4" />
+            Add Product
+          </Button>
+          <Button onClick={() => navigate('/customers/add')} variant="outline" className="gap-2">
+            <UserPlus className="h-4 w-4" />
+            Add Customer
+          </Button>
+        </div>
       </div>
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

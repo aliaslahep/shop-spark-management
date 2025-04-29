@@ -118,7 +118,7 @@ export default function Customers() {
           <h1 className="text-2xl font-bold flex items-center">
             <Users className="mr-2 h-6 w-6" /> Customer Management
           </h1>
-          <p className="text-gray-500">Manage your customers and their information</p>
+          <p className="text-muted-foreground">Manage your customers and their information</p>
         </div>
         
         <div>
@@ -128,15 +128,15 @@ export default function Customers() {
         </div>
       </div>
       
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-4 border-b border-gray-100">
+      <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
+        <div className="p-4 border-b border-border">
           <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
             <div className="relative w-full md:w-96">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder="Search customers..."
-                className="w-full pl-9 bg-gray-50 border-gray-200"
+                className="w-full pl-9 bg-muted/40 border-input"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -177,7 +177,7 @@ export default function Customers() {
                       <div className="flex items-center text-sm">
                         <Phone className="h-3 w-3 mr-1" /> {customer.phone}
                       </div>
-                      <div className="flex items-center text-sm text-gray-500">
+                      <div className="flex items-center text-sm text-muted-foreground">
                         <Mail className="h-3 w-3 mr-1" /> {customer.email}
                       </div>
                     </div>

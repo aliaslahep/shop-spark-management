@@ -110,7 +110,7 @@ export default function Staff() {
           <h1 className="text-2xl font-bold flex items-center">
             <UserCheck className="mr-2 h-6 w-6" /> Staff Management
           </h1>
-          <p className="text-gray-500">Manage your staff members and their roles</p>
+          <p className="text-muted-foreground">Manage your staff members and their roles</p>
         </div>
         
         <div>
@@ -120,15 +120,15 @@ export default function Staff() {
         </div>
       </div>
       
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-4 border-b border-gray-100">
+      <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
+        <div className="p-4 border-b border-border">
           <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
             <div className="relative w-full md:w-96">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder="Search staff..."
-                className="w-full pl-9 bg-gray-50 border-gray-200"
+                className="w-full pl-9 bg-muted/40 border-input"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -167,12 +167,12 @@ export default function Staff() {
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         staff.role === "Admin"
-                          ? "bg-purple-100 text-purple-800"
+                          ? "bg-primary/10 text-primary dark:bg-primary/20"
                           : staff.role === "Cashier"
-                          ? "bg-blue-100 text-blue-800"
+                          ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
                           : staff.role === "Inventory Manager"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-gray-100 text-gray-800"
+                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                          : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {staff.role}
@@ -183,7 +183,7 @@ export default function Staff() {
                       <div className="flex items-center text-sm">
                         <Phone className="h-3 w-3 mr-1" /> {staff.phone}
                       </div>
-                      <div className="flex items-center text-sm text-gray-500">
+                      <div className="flex items-center text-sm text-muted-foreground">
                         <Mail className="h-3 w-3 mr-1" /> {staff.email}
                       </div>
                     </div>
@@ -193,10 +193,10 @@ export default function Staff() {
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         staff.status === "Active"
-                          ? "bg-green-100 text-green-800"
+                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
                           : staff.status === "On Leave"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-red-100 text-red-800"
+                          ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                          : "bg-destructive/10 text-destructive dark:bg-destructive/20"
                       }`}
                     >
                       {staff.status}

@@ -13,8 +13,13 @@ import {
   X 
 } from "lucide-react";
 
-export function Sidebar() {
-  const [expanded, setExpanded] = useState(true);
+interface SidebarProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+export function Sidebar({ isOpen, onToggle }: SidebarProps) {
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
   const links = [
@@ -27,33 +32,37 @@ export function Sidebar() {
     { label: "Settings", icon: Settings, path: "/settings" },
   ];
 
+  const toggleMobile = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
     <>
-      {/* Mobile menu button */}
       <button 
-        className="fixed bottom-4 right-4 md:hidden z-50 bg-primary p-3 rounded-full shadow-lg text-white"
-        onClick={() => setExpanded(!expanded)}
+        className="fixed bottom-4 right-4 md:hidden z-50 bg-primary p-3 rounded-full shadow-lg text-primary-foreground"
+        onClick={toggleMobile}
       >
-        {expanded ? <X size={24} /> : <Menu size={24} />}
+        {mobileOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Sidebar */}
       <div 
-        className={`bg-sidebar-background text-sidebar-foreground w-full md:w-64 flex-shrink-0 transition-all duration-300 ease-in-out ${
-          expanded ? "fixed inset-0 z-40 md:relative" : "hidden md:block md:w-20"
-        }`}
+        className={`bg-background text-foreground border-r border-border
+          fixed inset-0 z-40 md:relative md:translate-x-0
+          transition-all duration-300 ease-in-out
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
+          ${isOpen ? 'md:w-64' : 'md:w-20'}`}
       >
         <div className="p-4 flex items-center justify-between">
-          {expanded ? (
+          {isOpen ? (
             <span className="text-xl font-bold">ShopSpark</span>
           ) : (
             <span className="text-xl font-bold mx-auto">SS</span>
           )}
           <button 
             className="hidden md:block"
-            onClick={() => setExpanded(!expanded)}
+            onClick={onToggle}
           >
-            {expanded ? <X size={20} /> : <Menu size={20} />}
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
         
@@ -63,14 +72,15 @@ export function Sidebar() {
               <li key={link.path}>
                 <Link
                   to={link.path}
-                  className={`flex items-center p-3 rounded-md transition-colors ${
-                    location.pathname === link.path
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                      : "hover:bg-sidebar-accent/50"
-                  }`}
+                  className={`flex items-center p-3 rounded-md transition-colors
+                    ${location.pathname === link.path
+                      ? 'bg-primary/10 text-primary'
+                      : 'hover:bg-accent hover:text-accent-foreground'
+                    }`}
+                  onClick={() => setMobileOpen(false)}
                 >
                   <link.icon className="h-5 w-5" />
-                  {expanded && <span className="ml-3">{link.label}</span>}
+                  {isOpen && <span className="ml-3">{link.label}</span>}
                 </Link>
               </li>
             ))}

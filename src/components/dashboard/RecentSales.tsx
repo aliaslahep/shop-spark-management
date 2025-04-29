@@ -7,6 +7,7 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Mock data for recent sales
 const recentSales = [
@@ -19,12 +20,12 @@ const recentSales = [
 
 export function RecentSales() {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="p-6 border-b border-gray-100">
+    <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
+      <div className="p-6 border-b border-border">
         <h3 className="text-lg font-semibold">Recent Sales</h3>
-        <p className="text-gray-500 text-sm">Latest transactions across your store</p>
+        <p className="text-muted-foreground text-sm">Latest transactions across your store</p>
       </div>
-      <div className="overflow-x-auto">
+      <ScrollArea className="h-[300px]">
         <Table>
           <TableHeader>
             <TableRow>
@@ -46,10 +47,10 @@ export function RecentSales() {
                   <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       sale.status === "Completed"
-                        ? "bg-green-100 text-green-800"
+                        ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
                         : sale.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
+                        ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
+                        : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
                     }`}
                   >
                     {sale.status}
@@ -59,7 +60,7 @@ export function RecentSales() {
             ))}
           </TableBody>
         </Table>
-      </div>
+      </ScrollArea>
     </div>
   );
 }
