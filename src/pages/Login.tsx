@@ -1,6 +1,9 @@
 
 import * as React from "react";
+<<<<<<< HEAD
 import axios from "axios";
+=======
+>>>>>>> 6a9e412e729daa436dab67e5c4414be621da0efb
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,14 +12,21 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogIn } from "lucide-react";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6a9e412e729daa436dab67e5c4414be621da0efb
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { toast } = useToast();
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const handleLogin = async (e: React.FormEvent) => {
+=======
+  const handleLogin = (e: React.FormEvent) => {
+>>>>>>> 6a9e412e729daa436dab67e5c4414be621da0efb
     e.preventDefault();
     if (!email.trim() || !password.trim()) {
       toast({
@@ -24,6 +34,7 @@ export default function Login() {
         description: "Please enter both email and password",
         variant: "destructive",
       });
+<<<<<<< HEAD
     }
 
     try {
@@ -72,6 +83,19 @@ export default function Login() {
         }
       }
       
+=======
+      return;
+    }
+
+    // For demonstration purposes
+    toast({
+      title: "Success",
+      description: "You have been logged in successfully",
+    });
+    
+    // Navigate to dashboard after successful login
+    navigate("/");
+>>>>>>> 6a9e412e729daa436dab67e5c4414be621da0efb
   };
 
   return (
