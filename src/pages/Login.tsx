@@ -1,77 +1,97 @@
-
 import * as React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { LogIn } from "lucide-react";
-
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { user, setUser, loading } = useAuth();
+
+  // 🔁 Redirect if already logged in
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!email.trim() || !password.trim()) {
       toast({
         title: "Error",
         description: "Please enter both email and password",
         variant: "destructive",
       });
+      return;
     }
 
     try {
-        const response = await axios.post("http://127.0.0.1:8000/api/login", {
-          email,
-          password,
-        });
-        
-        if (!response.data?.token || !response.data?.user) {
-          toast({
-            title: "Login Failed",
-            description: "Invalid response from server",
-            variant: "destructive",
-          });
-        }
-      
-        const { token, user } = response.data;
-      
-        localStorage.setItem("token", token);
-      
+      const response = await axios.post("http://127.0.0.1:8000/api/login", {
+        email,
+        password,
+      });
+
+      if (!response.data?.token || !response.data?.user) {
         toast({
-          title: "Success",
-          description: `Welcome ${user.name}`,
+          title: "Login Failed",
+          description: "Invalid response from server",
+          variant: "destructive",
         });
-      
-        navigate("/");
-      } catch (error: any) {
-        if (error.response?.status === 401) {
-          toast({
-            title: "Login Failed",
-            description: "Invalid email or password",
-            variant: "destructive",
-          });
-        } else if (error.response?.status === 422) {
-          toast({
-            title: "Validation Error",
-            description: "Please check your input",
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: "Error",
-            description: "Something went wrong. Please try again.",
-            variant: "destructive",
-          });
-        }
+        return;
       }
-      
+
+      const { token, user } = response.data;
+
+      // ✅ Save token
+      localStorage.setItem("token", token);
+
+      // ✅ Set user in context
+      setUser(user);
+
+      toast({
+        title: "Success",
+        description: `Welcome ${user.name}`,
+      });
+
+      navigate("/");
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        toast({
+          title: "Login Failed",
+          description: "Invalid email or password",
+          variant: "destructive",
+        });
+      } else if (error.response?.status === 422) {
+        toast({
+          title: "Validation Error",
+          description: "Please check your input",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (
@@ -86,7 +106,10 @@ export default function Login() {
         <form onSubmit={handleLogin}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="email">
+              <label
+                className="text-sm font-medium"
+                htmlFor="email"
+              >
                 Email
               </label>
               <Input
@@ -102,10 +125,16 @@ export default function Login() {
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="password">
+                <label
+                  className="text-sm font-medium"
+                  htmlFor="password"
+                >
                   Password
                 </label>
-                <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+                <Link
+                  to="/forgot-password"
+                  className="text-sm text-primary hover:underline"
+                >
                   Forgot password?
                 </Link>
               </div>

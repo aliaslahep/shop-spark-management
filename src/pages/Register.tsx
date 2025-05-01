@@ -1,11 +1,10 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
+import { Card,
   CardContent,
   CardDescription,
   CardFooter,
@@ -20,12 +19,20 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
       toast({
         title: "Error",
@@ -34,7 +41,7 @@ export default function Register() {
       });
       return;
     }
-  
+
     if (password !== confirmPassword) {
       toast({
         title: "Error",
@@ -43,7 +50,7 @@ export default function Register() {
       });
       return;
     }
-  
+
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/register", {
         name,
@@ -51,18 +58,18 @@ export default function Register() {
         password,
         password_confirmation: confirmPassword,
       });
-  
+
       if (response.status === 200) {
-        const { user } = response.data;
-        
-        navigate("/login");
-        
+        const { token, user } = response.data;
+
+        localStorage.setItem("token", token); 
+
         toast({
           title: "Success",
-          description: 'Account created successfully. Please login.',
-          variant: "success",
+          description: "Account created successfully.",
         });
 
+        navigate("/"); 
       } else {
         toast({
           title: "Registration Failed",
@@ -93,7 +100,6 @@ export default function Register() {
       }
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background p-4">

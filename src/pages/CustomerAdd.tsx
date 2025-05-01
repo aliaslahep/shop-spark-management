@@ -158,19 +158,6 @@ export default function CustomerAdd() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="zipcode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Zipcode</FormLabel>
-                      <FormControl>
-                        <Input placeholder="400001" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
               <div className="flex justify-end space-x-4">

@@ -12,13 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/components/stores/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 
 export function Header({ children }: { children?: React.ReactNode }) {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,13 +40,22 @@ export function Header({ children }: { children?: React.ReactNode }) {
   };
 
   const handleLogout = () => {
+    // Remove the token from localStorage
+    localStorage.removeItem("token");
+  
+    // Optionally, clear the user context if you're using it
+    setUser(null); // Reset user state in context
+    
+    // Show a toast notification for logout
     toast({
       title: "Logged out",
       description: "You have been successfully logged out",
     });
+  
+    // Redirect to the login page
     navigate("/login");
-    // For demonstration purposes, this would handle logout functionality
   };
+  
 
   return (
     <header className="bg-background border-b border-border py-3 px-4 flex items-center justify-between">
@@ -95,6 +104,7 @@ export function Header({ children }: { children?: React.ReactNode }) {
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
             </DropdownMenuItem>
+
           </DropdownMenuContent>
         </DropdownMenu>
 

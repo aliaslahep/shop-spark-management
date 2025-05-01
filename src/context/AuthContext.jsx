@@ -4,28 +4,26 @@ import axios from "axios";
 
 const AuthContext = createContext();
 
-// Create the provider
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // optional: to handle loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-
         const token = localStorage.getItem("token");
-        
+        if (!token) return setLoading(false);
+
         const response = await axios.get("http://127.0.0.1:8000/api/user", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-              },
-        });     
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setUser(response.data.user);
-
       } catch (error) {
-        console.error("Error fetching user:", error);
-        setUser(null); // or handle auth logout
+        console.error("Auth error:", error);
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -41,5 +39,4 @@ export function AuthProvider({ children }) {
   );
 }
 
-// Create a custom hook for easy use
 export const useAuth = () => useContext(AuthContext);
