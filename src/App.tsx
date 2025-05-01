@@ -5,6 +5,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
+
+
+import NotFound from "./pages/NotFound";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 import Index from "./pages/Index";
 import Billing from "./pages/Billing";
 import Inventory from "./pages/Inventory";
@@ -12,11 +19,13 @@ import Customers from "./pages/Customers";
 import Staff from "./pages/Staff";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
-import NotFound from "./pages/NotFound";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import CustomerAdd from "./pages/CustomerAdd";
 import ProductAdd from "./pages/ProductAdd";
+import Profile from "./pages/Profile";
+
+import CustomerAdd from "./pages/CustomerAdd";
+import CustomerView from "./pages/CustomerView";
+import CustomerEdit from "./pages/CustomerEdit";
+
 import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "@/context/AuthContext";
 
@@ -107,6 +116,22 @@ const App = () => (
                 </PrivateRoute>
               }
             />
+            <Route 
+              path="/customers/view/:id" 
+              element={
+                <PrivateRoute>
+                  <Layout><CustomerView /></Layout>
+                </PrivateRoute>
+              } 
+            />
+            <Route 
+              path="/customers/edit/:id"
+              element={
+                <PrivateRoute>
+                  <Layout><CustomerEdit /></Layout>
+                </PrivateRoute>
+              } 
+            />
             <Route
               path="/product/add"
               element={
@@ -115,6 +140,12 @@ const App = () => (
                 </PrivateRoute>
               }
             />
+            <Route path="/profile" 
+            element={ 
+              <PrivateRoute>
+              <Layout><Profile /></Layout>
+              </PrivateRoute>} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
