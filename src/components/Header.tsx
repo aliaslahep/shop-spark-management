@@ -12,11 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/components/stores/AuthContext";
 
 export function Header({ children }: { children?: React.ReactNode }) {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,13 +44,8 @@ export function Header({ children }: { children?: React.ReactNode }) {
       title: "Logged out",
       description: "You have been successfully logged out",
     });
-<<<<<<< HEAD
     navigate("/login");
     // For demonstration purposes, this would handle logout functionality
-=======
-    // Navigate to the login page after logout
-    navigate("/login");
->>>>>>> 6a9e412e729daa436dab67e5c4414be621da0efb
   };
 
   return (
@@ -74,23 +71,19 @@ export function Header({ children }: { children?: React.ReactNode }) {
           <Bell className="h-5 w-5" />
         </button>
         
-<<<<<<< HEAD
          <DropdownMenu>
-=======
-        <DropdownMenu>
->>>>>>> 6a9e412e729daa436dab67e5c4414be621da0efb
           <DropdownMenuTrigger className="flex items-center focus:outline-none">
             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
               <User className="h-4 w-4" />
             </div>
-            <span className="ml-2 font-medium hidden md:block">Admin User</span>
+            <span className="ml-2 font-medium hidden md:block">{user ? user.name : "Loading..."}</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <div className="px-2 py-1.5 text-sm font-semibold">
-              Admin User
+              {user ? user.name : "Loading..."}
             </div>
             <div className="px-2 py-1 text-xs text-muted-foreground">
-              admin@example.com
+              {user ? user.email : "Loading..."}
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleProfile} className="cursor-pointer">
@@ -104,10 +97,7 @@ export function Header({ children }: { children?: React.ReactNode }) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-<<<<<<< HEAD
 
-=======
->>>>>>> 6a9e412e729daa436dab67e5c4414be621da0efb
       </div>
     </header>
   );
